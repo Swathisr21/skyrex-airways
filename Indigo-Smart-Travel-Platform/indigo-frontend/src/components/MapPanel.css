@@ -1,0 +1,617 @@
+/* MapPanel Styles - Light Theme */
+.map-panel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  max-height: 400px;
+}
+
+.map-panel .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #0057b8 0%, #004494 100%);
+  color: white;
+}
+
+.map-panel .panel-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.map-icon-header {
+  font-size: 1.4rem;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.live-indicator.active {
+  background: rgba(255, 255, 255, 0.3);
+  animation: pulse-bg 2s infinite;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff4444;
+  border-radius: 50%;
+}
+
+.live-dot.pulse {
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes pulse-bg {
+  0%, 100% {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    background: rgba(255, 255, 255, 0.35);
+  }
+}
+
+.map-container {
+  padding: 0;
+  min-height: 250px;
+  max-height: 350px;
+}
+
+/* Placeholder State */
+.map-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  max-height: 350px;
+  background: #f8fafc;
+  padding: 40px;
+}
+
+.placeholder-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.map-icon-large {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.map-placeholder h3 {
+  margin: 0 0 8px 0;
+  color: #0057b8;
+  font-size: 1.3rem;
+}
+
+.map-placeholder p {
+  margin: 0 0 8px 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.map-placeholder .hint {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.map-placeholder .hint .highlight {
+  color: #0057b8;
+  font-weight: 600;
+}
+
+.placeholder-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  text-align: left;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.feature-icon {
+  font-size: 1.2rem;
+}
+
+.feature-item span:last-child {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Map Content State */
+.map-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.flight-tracking-card {
+  padding: 20px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tracking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.flight-identity h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #1f2937;
+}
+
+.airline-name {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.on-time {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.status-badge.delayed {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-badge.cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Route Info */
+.route-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.route-city {
+  text-align: center;
+  flex: 1;
+}
+
+.city-code {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.city-name {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.flight-time {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0057b8;
+}
+
+.route-progress {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-bar-container {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0057b8 0%, #3b82f6 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.live-badge {
+  background: #dc2626;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  animation: pulse-dot 1.5s infinite;
+}
+
+.flight-duration {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.duration-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #0057b8, #3b82f6);
+  position: relative;
+}
+
+.duration-line::after {
+  content: '✈';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+}
+
+.duration-text {
+  font-size: 0.85rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+/* Flight Details Grid */
+.flight-details-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.detail-item {
+  text-align: center;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.detail-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Tracking Controls */
+.tracking-controls {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.btn-stop-tracking {
+  padding: 10px 24px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-stop-tracking:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* Interactive Map */
+.interactive-map {
+  position: relative;
+}
+
+/* Leaflet Popup Customization */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.popup-content {
+  text-align: center;
+}
+
+.popup-content strong {
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.popup-label {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.flight-status-popup {
+  text-align: center;
+  min-width: 150px;
+}
+
+.flight-status-popup .flight-number {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.flight-status-popup .flight-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.flight-status-popup .flight-airline {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Plane Popup */
+.plane-popup {
+  min-width: 200px;
+}
+
+.plane-popup .flight-number {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.tracking-info {
+  margin-bottom: 8px;
+}
+
+.tracking-info .progress-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.tracking-info .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0057b8, #3b82f6);
+  border-radius: 3px;
+}
+
+.tracking-info .progress-text {
+  font-size: 0.8rem;
+  color: #0057b8;
+  font-weight: 600;
+  text-align: center;
+}
+
+.distance-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.eta-info {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* Custom Markers */
+.custom-plane-marker {
+  transition: all 0.3s ease;
+}
+
+.custom-plane-marker .plane-marker {
+  animation: plane-fly 2s infinite ease-in-out;
+}
+
+@keyframes plane-fly {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.custom-airport-marker {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .map-panel .panel-header {
+    padding: 12px 16px;
+  }
+
+  .map-panel .panel-header h2 {
+    font-size: 1rem;
+  }
+
+  .live-indicator {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+  }
+
+  .flight-tracking-card {
+    padding: 16px;
+  }
+
+  .route-info {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .route-city {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .route-progress {
+    width: 100%;
+  }
+
+  .flight-duration {
+    display: none;
+  }
+
+  .flight-details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .interactive-map {
+    height: 300px !important;
+  }
+
+  .placeholder-features {
+    gap: 8px;
+  }
+
+  .feature-item {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tracking-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .flight-details-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .detail-item {
+    padding: 8px;
+  }
+
+  .detail-label {
+    font-size: 0.65rem;
+  }
+
+  .detail-value {
+    font-size: 0.85rem;
+  }
+}

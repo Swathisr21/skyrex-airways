@@ -1,0 +1,47 @@
+# =====================
+# Spring Boot / Java
+# =====================
+target/
+*.class
+*.jar
+*.war
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# =====================
+# React / Node
+# =====================
+node_modules/
+build/
+dist/
+
+# =====================
+# Logs
+# =====================
+*.log
+
+# =====================
+# OS files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Env files
+# =====================
+.env
+.env.local
+.env.*.local
+
+# =====================
+# IDE
+# =====================
+.vscode/
+.idea/
+
+# =====================
+# Package lock (optional)
+# =====================
+package-lock.json
+yarn.lock
