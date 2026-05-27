@@ -4,12 +4,14 @@ import "./App.css";
 import "./components/BookingComponents.css";
 
 import FlightPanel from "./components/FlightPanel";
-import MapPanel from "./components/MapPanel";
 import WeatherPanel from "./components/WeatherPanel";
 import MyBookings from "./components/MyBookings";
 import LoginModal from "./components/LoginModal";
 import BookingConfirmation from "./components/BookingConfirmation";
 import BookingFlow from "./components/BookingFlow";
+import FlightMap from "./components/FlightMap";
+import NearbyAirports from "./components/NearbyAirports";
+import "./components/FlightTracking.css";
 
 function App() {
   const [selectedFlight, setSelectedFlight] = useState(null);
@@ -225,19 +227,51 @@ function App() {
 
         {/* TRACK PAGE (DASHBOARD) */}
         {currentPage === 'dashboard' && (
-          <>
-            <div className="dashboard-grid">
-              {/* Left Panel - Flight List */}
-              <FlightPanel 
-                onSelectFlight={handleSelectFlight}
-                onBookFlight={handleBookFlight}
-              />
+          <div className="tracking-dashboard">
+            {/* Top Row - Flight List + Weather */}
+            <div className="dashboard-row">
+              <div className="tracking-panel">
+                <div className="panel-header">
+                  <h2>🛫 Flight Status</h2>
+                </div>
+                <div className="panel-body">
+                  <FlightPanel 
+                    onSelectFlight={handleSelectFlight}
+                    onBookFlight={handleBookFlight}
+                  />
+                </div>
+              </div>
+              <div className="tracking-panel">
+                <div className="panel-header">
+                  <h2>🌤️ Weather Forecast</h2>
+                </div>
+                <div className="panel-body">
+                  <WeatherPanel selectedFlight={selectedFlight} />
+                </div>
+              </div>
+            </div>
 
-              {/* Center Panel - Map/Tracking */}
-              <MapPanel selectedFlight={selectedFlight} />
+            {/* Middle Row - Flight Map */}
+            <div className="dashboard-full">
+              <div className="tracking-panel">
+                <div className="panel-header">
+                  <h2>🗺️ Live Flight Tracking</h2>
+                  {selectedFlight && (
+                    <div className="live-indicator">
+                      <span className="live-dot"></span>
+                      TRACKING {selectedFlight.flightNumber}
+                    </div>
+                  )}
+                </div>
+                <div className="panel-body">
+                  <FlightMap selectedFlight={selectedFlight} height="480px" />
+                </div>
+              </div>
+            </div>
 
-              {/* Right Panel - Weather */}
-              <WeatherPanel selectedFlight={selectedFlight} />
+            {/* Bottom Row - Nearby Airports */}
+            <div className="dashboard-full">
+              <NearbyAirports />
             </div>
 
             {/* Quick Stats Section */}
@@ -273,7 +307,7 @@ function App() {
                 </div>
               </div>
             </section>
-          </>
+          </div>
         )}
       </main>
 
@@ -300,17 +334,10 @@ function App() {
               <li><a href="#terms">Terms & Conditions</a></li>
             </ul>
           </div>
-          <div className="footer-section">
-            <h4>Connect With Us</h4>
-            <div className="social-links">
-              <a href="#facebook" className="social-link">📘</a>
-              <a href="#twitter" className="social-link">🐦</a>
-              <a href="#instagram" className="social-link">📷</a>
-            </div>
-          </div>
+          
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2024 SkyRex Airways. All rights reserved.</p>
+          <p>&copy; 2026 SkyRex Airways. All rights reserved.</p>
         </div>
       </footer>
 

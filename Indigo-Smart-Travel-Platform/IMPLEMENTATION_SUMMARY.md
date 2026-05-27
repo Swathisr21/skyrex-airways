@@ -230,9 +230,53 @@ Application runs on: http://localhost:3000
 
 ## Features Not Yet Implemented
 
-1. **Live Flight Tracking** - Google Maps integration with moving animation
+1. ~~**Live Flight Tracking** - Google Maps integration with moving animation~~ ✅ Implemented
 2. **Email/PDF Ticket** - Automated email sending and PDF generation
-3. **Advanced Real-Time Updates** - WebSocket support for instant seat updates
+3. ~~**Advanced Real-Time Updates** - WebSocket support for instant seat updates~~ ✅ Implemented
+
+## Newly Implemented Features (May 2026)
+
+### Live Flight Tracking ✅
+- **Google Maps Integration**: Replaced Leaflet with Google Maps API for professional map rendering
+- **Dynamic Flight Path**: Curved Bezier flight paths between source and destination cities
+- **Animated Plane Movement**: Smooth plane marker animation along the flight path
+- **Real-time Progress**: Live progress bar with percentage completion
+- **Distance & ETA**: Calculates distance covered/remaining and estimated arrival time
+- **Flight Status Popup**: Interactive info windows showing flight number, status, and airline
+- **Dark Theme Map**: Custom dark-themed Google Maps styling
+- **Airport Markers**: Custom SVG markers for origin and destination airports
+
+**Files**:
+- `MapPanel.js` - Google Maps integration with live tracking animation
+- `MapPanel.css` - Map styling and animations
+
+### Advanced Real-Time Seat Updates ✅
+- **WebSocket Support**: Spring Boot STOMP WebSocket for bidirectional communication
+- **Real-time Seat Sync**: Instant synchronization of seat selections across all clients
+- **Multi-user Awareness**: Visual indicators showing seats being selected by other users
+- **Conflict Prevention**: Blocks selection of seats already being held by other users
+- **Activity Feed**: Real-time activity log showing seat selection/confirmation events
+- **Connection Status**: Visual WebSocket connection indicator (Live Updates / Offline Mode)
+- **Auto-reconnect**: Automatic reconnection with exponential backoff
+- **Graceful Degradation**: Falls back to offline mode if WebSocket is unavailable
+
+**Files**:
+- `WebSocketConfig.java` - Spring Boot WebSocket configuration
+- `SeatUpdateController.java` - WebSocket message handlers for seat operations
+- `SeatUpdateMessage.java` - WebSocket message payload structure
+- `websocketService.js` - Frontend WebSocket client with STOMP protocol
+- `SeatSelection.js` - Real-time seat selection with WebSocket integration
+- `BookingComponents.css` - WebSocket status indicators and activity feed styles
+
+### WebSocket Endpoints
+- `ws://localhost:8080/ws/websocket` - Raw WebSocket endpoint
+- `ws://localhost:8080/ws/sockjs` - SockJS fallback endpoint
+- `/app/seat/select/{flightId}` - Select a seat
+- `/app/seat/deselect/{flightId}` - Deselect a seat
+- `/app/seat/confirm/{flightId}` - Confirm seat booking
+- `/app/seat/release/{flightId}` - Release held seats
+- `/app/seat/sync/{flightId}` - Sync current seat state
+- `/topic/seats/{flightId}` - Subscribe to seat updates for a flight
 
 ## Future Enhancements
 

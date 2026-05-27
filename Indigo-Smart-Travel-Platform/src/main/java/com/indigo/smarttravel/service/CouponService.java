@@ -36,11 +36,13 @@ public class CouponService {
             throw new RuntimeException("Coupon is not active");
         }
 
-        if (coupon.getUsageCount() >= coupon.getUsageLimit()) {
+        Integer usageLimit = coupon.getUsageLimit();
+        if (usageLimit != null && usageLimit > 0 && coupon.getUsageCount() >= usageLimit) {
             throw new RuntimeException("Coupon usage limit exceeded");
         }
 
-        if (bookingAmount.compareTo(coupon.getMinBookingAmount()) < 0) {
+        java.math.BigDecimal minBookingAmount = coupon.getMinBookingAmount();
+        if (minBookingAmount != null && bookingAmount.compareTo(minBookingAmount) < 0) {
             throw new RuntimeException("Booking amount below minimum required for coupon");
         }
 

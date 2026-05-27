@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FlightSearch from "./FlightSearch";
 import PassengerForm from "./PassengerForm";
 import SeatSelection from "./SeatSelection";
@@ -82,7 +82,11 @@ function BookingFlow({ onBookingComplete, user }) {
       
       if (response.data.valid) {
         setDiscount(response.data.discount);
-        setTotalAmount(response.data.finalAmount);
+        if (response.data.finalAmount !== undefined) {
+          setTotalAmount(response.data.finalAmount);
+        } else {
+          setTotalAmount(prev => prev - response.data.discount);
+        }
       }
     } catch (err) {
       console.error("Coupon validation failed:", err);
@@ -115,9 +119,7 @@ function BookingFlow({ onBookingComplete, user }) {
       });
 
       // Process payment (simulate success)
-      await axios.post(`http://localhost:8080/payments/${paymentResponse.data.paymentId}/process`, {
-        success: true
-      });
+      await axios.post(`http://localhost:8080/payments/${paymentResponse.data.id}/process`);
 
       // Create check-in
       try {
@@ -336,15 +338,11 @@ function BookingFlow({ onBookingComplete, user }) {
                   className="coupon-input"
                 />
                 <button
-  onClick={() => {
-    console.log("Apply button clicked");
-    alert("Apply clicked");
-    handleCouponApply();
-  }}
-  className="coupon-btn"
->
-  Apply
-</button>
+                  onClick={handleCouponApply}
+                  className="coupon-btn"
+                >
+                  Apply
+                </button>
               </div>
 
               <div className="payment-methods">

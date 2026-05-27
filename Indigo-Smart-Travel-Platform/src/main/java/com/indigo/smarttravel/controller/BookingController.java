@@ -1,6 +1,7 @@
 package com.indigo.smarttravel.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.indigo.smarttravel.entity.Booking;
@@ -47,11 +47,18 @@ public class BookingController {
     @PostMapping("/{flightId}")
     public ResponseEntity<Booking> createBooking(
             @PathVariable Long flightId,
-            @RequestParam Long userId,
-            @RequestParam String passengerName,
-            @RequestParam int seats,
-            @RequestParam String selectedSeats,
-            @RequestBody(required = false) List<Passenger> passengers) {
+            @RequestBody Map<String, Object> requestBody) {
+        
+        String passengerName = requestBody.getOrDefault("passengerName", "Passenger").toString();
+        int seats = Integer.parseInt(requestBody.getOrDefault("seatsBooked", "1").toString());
+        String selectedSeats = requestBody.getOrDefault("selectedSeats", "").toString();
+        Long userId = 1L; // Default user for now; can be enhanced with JWT token
+        
+        @SuppressWarnings("unchecked")
+        List<Passenger> passengers = requestBody.containsKey("passengers") 
+            ? (List<Passenger>) requestBody.get("passengers") 
+            : null;
+            
         return ResponseEntity.ok(bookingService.createBooking(flightId, userId, passengerName, seats, selectedSeats, passengers));
     }
 

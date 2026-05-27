@@ -1,0 +1,797 @@
+/* ============================================
+   Flight Tracking Dashboard - Soft Blue Theme
+   ============================================ */
+
+/* --- FlightMap Component Styles --- */
+.flight-map-wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 87, 184, 0.08);
+}
+
+/* Leaflet popup customizations */
+.airport-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.airport-popup strong {
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.airport-popup .airport-code {
+  display: inline-block;
+  background: #e6f0ff;
+  color: #0057b8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.airport-popup .airport-city {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.airport-popup .flight-time {
+  color: #0057b8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.plane-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  text-align: center;
+}
+
+.plane-popup strong {
+  color: #0057b8;
+  font-size: 1rem;
+}
+
+.plane-popup .route-info-popup {
+  color: #1f2937;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.plane-popup .distance-info {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Custom marker animations */
+.airport-marker-icon {
+  width: 36px;
+  height: 36px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 87, 184, 0.25);
+  border: 2px solid #0057b8;
+}
+
+.airport-marker-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.plane-marker-animated {
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 87, 184, 0.35);
+  border: 2px solid #0057b8;
+  animation: plane-bob 2s ease-in-out infinite;
+}
+
+.plane-marker-animated svg {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes plane-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(2deg); }
+}
+
+/* Route info overlay */
+.route-info-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 400;
+  pointer-events: none;
+}
+
+.route-info-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 87, 184, 0.1);
+  pointer-events: auto;
+}
+
+.route-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.route-flight-number {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0057b8;
+}
+
+.route-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.route-status.on-time {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.route-status.delayed {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.route-status.cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.route-cities {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.route-city {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.route-city .city-code {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.route-city .city-name {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.route-arrow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.route-arrow span {
+  font-size: 1.2rem;
+  color: #0057b8;
+}
+
+.route-arrow small {
+  font-size: 0.7rem;
+  color: #9ca3af;
+}
+
+.route-progress-bar {
+  margin-top: 12px;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.route-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0057b8, #3b82f6);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================
+   NearbyAirports Component Styles
+   ============================================ */
+
+.nearby-airports-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 87, 184, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.nearby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #0057b8 0%, #004494 100%);
+  color: white;
+}
+
+.nearby-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nearby-title h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.nearby-icon {
+  font-size: 1.3rem;
+}
+
+.detect-location-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.detect-location-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.detect-location-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.detect-location-btn.locating .spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Location status */
+.location-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #f0f9ff;
+  color: #0057b8;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #e0f2fe;
+}
+
+.location-status .status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+
+.location-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #fecaca;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Radius selector */
+.radius-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+
+.radius-selector label {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.radius-options {
+  display: flex;
+  gap: 8px;
+}
+
+.radius-btn {
+  padding: 6px 14px;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.radius-btn:hover {
+  border-color: #0057b8;
+  color: #0057b8;
+}
+
+.radius-btn.active {
+  background: #0057b8;
+  color: white;
+  border-color: #0057b8;
+}
+
+/* Content layout */
+.nearby-content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 0;
+  min-height: 450px;
+}
+
+/* Airport list panel */
+.airport-list-panel {
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+  max-height: 450px;
+  background: #fafbfc;
+}
+
+.no-airports {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.no-airports-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.no-airports p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+}
+
+.airport-list {
+  padding: 8px;
+}
+
+.airport-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 4px;
+}
+
+.airport-list-item:hover {
+  background: #e6f0ff;
+}
+
+.airport-list-item.selected {
+  background: #e6f0ff;
+  border: 1px solid #bfdbfe;
+}
+
+.airport-rank {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5e7eb;
+  color: #6b7280;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.airport-list-item.selected .airport-rank {
+  background: #0057b8;
+  color: white;
+}
+
+.airport-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.airport-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.airport-name-row strong {
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.airport-code-badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.airport-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.airport-distance {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.airport-type {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.airport-type.international {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.airport-type.domestic {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.airport-arrow {
+  font-size: 1.2rem;
+  color: #9ca3af;
+  font-weight: 300;
+}
+
+/* Airport map panel */
+.airport-map-panel {
+  position: relative;
+  min-height: 450px;
+}
+
+/* User location marker */
+.user-location-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.user-location-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: #0057b8;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #0057b8;
+  z-index: 2;
+}
+
+.user-location-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 87, 184, 0.3);
+  border-radius: 50%;
+  animation: location-pulse 2s ease-out infinite;
+  z-index: 1;
+}
+
+@keyframes location-pulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* Nearby airport marker */
+.nearby-airport-icon {
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 87, 184, 0.25);
+  border: 2px solid #0057b8;
+}
+
+.nearby-airport-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* User popup */
+.user-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.user-popup strong {
+  color: #0057b8;
+}
+
+.user-popup span {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.airport-distance-popup {
+  color: #0057b8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ============================================
+   Dashboard Integration Styles
+   ============================================ */
+
+.tracking-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tracking-dashboard .dashboard-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.tracking-dashboard .dashboard-full {
+  grid-column: 1 / -1;
+}
+
+/* Panel card styles for tracking */
+.tracking-panel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 87, 184, 0.06);
+  overflow: hidden;
+}
+
+.tracking-panel .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #0057b8 0%, #004494 100%);
+  color: white;
+}
+
+.tracking-panel .panel-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.tracking-panel .panel-body {
+  padding: 0;
+}
+
+.tracking-panel .panel-header .live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tracking-panel .panel-header .live-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: pulse-dot 1.5s infinite;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .nearby-content {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .tracking-dashboard .dashboard-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nearby-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 300px;
+  }
+
+  .airport-list-panel {
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    max-height: 300px;
+  }
+
+  .airport-map-panel {
+    min-height: 300px;
+  }
+
+  .nearby-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .route-info-overlay {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
+
+  .route-info-card {
+    padding: 12px 14px;
+  }
+
+  .route-city .city-code {
+    font-size: 1.1rem;
+  }
+
+  .radius-selector {
+    flex-wrap: wrap;
+  }
+
+  .flight-map-wrapper {
+    height: 350px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .nearby-header {
+    padding: 12px 16px;
+  }
+
+  .nearby-title h3 {
+    font-size: 1rem;
+  }
+
+  .detect-location-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .airport-list-item {
+    padding: 10px;
+  }
+
+  .airport-name-row strong {
+    font-size: 0.9rem;
+  }
+
+  .route-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .route-cities {
+    gap: 8px;
+  }
+
+  .route-arrow small {
+    display: none;
+  }
+}

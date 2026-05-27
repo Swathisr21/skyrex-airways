@@ -1220,3 +1220,173 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 87, 184, 0.3);
 }
+
+/* ============================================
+   WebSocket Real-Time Seat Updates Styles
+   ============================================ */
+
+/* Header Status with WebSocket indicator */
+.header-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.header-status p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* WebSocket connection status */
+.ws-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.ws-status.connected {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.ws-status.disconnected {
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+
+.ws-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ws-status.connected .ws-dot {
+  background: #059669;
+  animation: ws-pulse 2s infinite;
+}
+
+.ws-status.disconnected .ws-dot {
+  background: #9ca3af;
+}
+
+@keyframes ws-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Activity Feed for real-time updates */
+.activity-feed {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.activity-feed-header {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.activity-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  animation: activity-slide-in 0.3s ease;
+}
+
+@keyframes activity-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.activity-item.select {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.activity-item.confirm {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.activity-item.deselect {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.activity-item.release {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.activity-item.sync {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.activity-icon {
+  font-size: 1rem;
+}
+
+.activity-text {
+  font-weight: 500;
+}
+
+/* Seat reserved by other user */
+.seat.reserved-by-other {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.seat.reserved-by-other:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.busy-indicator {
+  font-size: 0.6rem;
+  background: #f59e0b;
+  color: white;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+.seat.sample.reserved-by-other {
+  background: #fef3c7;
+  border-color: #f59e0b;
+}

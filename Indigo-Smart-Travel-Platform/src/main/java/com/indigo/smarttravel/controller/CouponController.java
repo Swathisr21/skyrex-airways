@@ -40,7 +40,12 @@ public class CouponController {
         java.math.BigDecimal bookingAmount = new java.math.BigDecimal(request.get("bookingAmount").toString());
         try {
             java.math.BigDecimal discount = couponService.validateAndApplyCoupon(code, bookingAmount);
-            return ResponseEntity.ok(Map.of("valid", true, "discount", discount));
+            java.math.BigDecimal finalAmount = bookingAmount.subtract(discount);
+            return ResponseEntity.ok(Map.of(
+                "valid", true,
+                "discount", discount,
+                "finalAmount", finalAmount
+            ));
         } catch (Exception e) {
             return ResponseEntity.ok(Map.of("valid", false, "message", e.getMessage()));
         }
